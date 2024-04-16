@@ -15,8 +15,8 @@ class Renderer: NSObject {
     var mesh: MTKMesh!
     init(metalView: MTKView) {
         guard
-          let device = MTLCreateSystemDefaultDevice(),
-          let commandQueue = device.makeCommandQueue() else {
+            let device = MTLCreateSystemDefaultDevice(),
+            let commandQueue = device.makeCommandQueue() else {
             fatalError("GPU not available")
         }
         Renderer.device = device
@@ -25,30 +25,30 @@ class Renderer: NSObject {
         let allocator = MTKMeshBufferAllocator(device: device)
         
         guard let assetURL = Bundle.main.url(
-          forResource: "train",
-          withExtension: "usd") else {
-          fatalError()
+            forResource: "train",
+            withExtension: "usd") else {
+            fatalError()
         }
         let vertexDescriptor = MTLVertexDescriptor()
         vertexDescriptor.attributes[0].format = .float3
         vertexDescriptor.attributes[0].offset = 0
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.layouts[0].stride =
-          MemoryLayout<SIMD3<Float>>.stride
+        MemoryLayout<SIMD3<Float>>.stride
         let meshDescriptor =
-          MTKModelIOVertexDescriptorFromMetal(vertexDescriptor)
+        MTKModelIOVertexDescriptorFromMetal(vertexDescriptor)
         (meshDescriptor.attributes[0] as! MDLVertexAttribute).name = MDLVertexAttributePosition
         
         let asset = MDLAsset(
-          url: assetURL,
-          vertexDescriptor: meshDescriptor,
-          bufferAllocator: allocator)
+            url: assetURL,
+            vertexDescriptor: meshDescriptor,
+            bufferAllocator: allocator)
         let mdlMesh =
-          asset.childObjects(of: MDLMesh.self).first as! MDLMesh
+        asset.childObjects(of: MDLMesh.self).first as! MDLMesh
         do {
-          mesh = try MTKMesh(mesh: mdlMesh, device: device)
+            mesh = try MTKMesh(mesh: mdlMesh, device: device)
         } catch let error {
-          print(error.localizedDescription)
+            print(error.localizedDescription)
         }
         vertexBuffer = mesh.vertexBuffers[0].buffer
         
@@ -56,28 +56,26 @@ class Renderer: NSObject {
         Renderer.library = library
         let vertexFunction = library?.makeFunction(name: "vertex_main")
         let fragmentFunction =
-          library?.makeFunction(name: "fragment_main")
+        library?.makeFunction(name: "fragment_main")
         
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.vertexFunction = vertexFunction
         pipelineDescriptor.fragmentFunction = fragmentFunction
-        pipelineDescriptor.colorAttachments[0].pixelFormat =
-          metalView.colorPixelFormat
-        pipelineDescriptor.vertexDescriptor =
-          MTKMetalVertexDescriptorFromModelIO(mdlMesh.vertexDescriptor)
+        pipelineDescriptor.colorAttachments[0].pixelFormat = metalView.colorPixelFormat
+        pipelineDescriptor.vertexDescriptor = MTKMetalVertexDescriptorFromModelIO(mdlMesh.vertexDescriptor)
         do {
-          pipelineState =
+            pipelineState =
             try device.makeRenderPipelineState(
-              descriptor: pipelineDescriptor)
+                descriptor: pipelineDescriptor)
         } catch let error {
-          fatalError(error.localizedDescription)
+            fatalError(error.localizedDescription)
         }
         super.init()
         metalView.clearColor = MTLClearColor(
-          red: 1.0,
-          green: 1.0,
-          blue: 0.8,
-          alpha: 1.0)
+            red: 1.0,
+            green: 1.0,
+            blue: 0.8,
+            alpha: 1.0)
         metalView.delegate = self
     }
 }
@@ -88,26 +86,26 @@ extension Renderer: MTKViewDelegate {
         }
     func draw(in view: MTKView) {
         guard
-          let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
-          let descriptor = view.currentRenderPassDescriptor,
-          let renderEncoder =
-            commandBuffer.makeRenderCommandEncoder(
-              descriptor: descriptor) else {
-        return
+            let commandBuffer = Renderer.commandQueue.makeCommandBuffer(),
+            let descriptor = view.currentRenderPassDescriptor,
+            let renderEncoder =
+                commandBuffer.makeRenderCommandEncoder(
+                    descriptor: descriptor) else {
+            return
         }
         renderEncoder.setRenderPipelineState(pipelineState)
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         for submesh in mesh.submeshes {
-          renderEncoder.drawIndexedPrimitives(
-            type: .triangle,
-            indexCount: submesh.indexCount,
-            indexType: submesh.indexType,
-            indexBuffer: submesh.indexBuffer.buffer,
-            indexBufferOffset: submesh.indexBuffer.offset)
+            renderEncoder.drawIndexedPrimitives(
+                type: .triangle,
+                indexCount: submesh.indexCount,
+                indexType: submesh.indexType,
+                indexBuffer: submesh.indexBuffer.buffer,
+                indexBufferOffset: submesh.indexBuffer.offset)
         }
         renderEncoder.endEncoding()
         guard let drawable = view.currentDrawable else {
-        return
+            return
         }
         commandBuffer.present(drawable)
         commandBuffer.commit()
