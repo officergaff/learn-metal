@@ -33,18 +33,35 @@
 #include <metal_stdlib>
 using namespace metal;
 
-vertex float4 vertex_main(
-                          constant packed_float3 *vertices [[buffer(0)]],
-                          constant ushort *indices [[buffer(1)]],
-                          constant float &timer [[buffer(11)]],
-                          uint vertexID [[vertex_id]])
-{
-    ushort index = indices[vertexID];
-    float4 position = float4(vertices[index], 1);
-    position.y += timer;
-    return position;
-}
+struct VertexIn {
+  float4 position [[attribute(0)]];
+  float4 color [[attribute(1)]];
+};
 
-fragment float4 fragment_main() {
-    return float4(0, 0, 1, 1);
+struct VertexOut {
+    float4 position [[position]];
+    float4 color;
+    float pointSize [[point_size]];
+};
+
+vertex VertexOut vertex_main(
+  constant uint &count [[buffer(0)]],
+  constant float &timer [[buffer(11)]],
+  uint vertexID [[vertex_id]])
+{
+  float radius = 0.8;
+  float pi = 3.14159;
+  float current = float(vertexID) / float(count);
+  float2 position;
+  position.x = radius * cos(2 * pi * current);
+  position.y = radius * sin(2 * pi * current) + timer;
+  VertexOut out {
+      .position = float4(position, 0, 1),
+      .color = float4(1, 0, 0, 1),
+      .pointSize = 5
+};
+return out; }
+
+fragment float4 fragment_main(VertexOut in [[stage_in]]) {
+    return in.color;
 }

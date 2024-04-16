@@ -21,6 +21,8 @@
 		82D99CA1267C79C000505CDB /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D99C9F267C79C000505CDB /* MetalView.swift */; };
 		E54689F62BCE29CC009465EC /* Quad.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54689F52BCE29CC009465EC /* Quad.swift */; };
 		E54689F72BCE357E009465EC /* Quad.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54689F52BCE29CC009465EC /* Quad.swift */; };
+		E54689F92BCE39F7009465EC /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54689F82BCE39F7009465EC /* VertexDescriptor.swift */; };
+		E54689FA2BCE39F7009465EC /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54689F82BCE39F7009465EC /* VertexDescriptor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,7 @@
 		8289B17A267C690B0062BFCD /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		82D99C9F267C79C000505CDB /* MetalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		E54689F52BCE29CC009465EC /* Quad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quad.swift; sourceTree = "<group>"; };
+		E54689F82BCE39F7009465EC /* VertexDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexDescriptor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,7 @@
 				82D99C9F267C79C000505CDB /* MetalView.swift */,
 				8289B17A267C690B0062BFCD /* Shaders.metal */,
 				820EACD9267C1D8600570060 /* Assets.xcassets */,
+				E54689F82BCE39F7009465EC /* VertexDescriptor.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -223,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E54689F92BCE39F7009465EC /* VertexDescriptor.swift in Sources */,
 				E54689F62BCE29CC009465EC /* Quad.swift in Sources */,
 				8289B17B267C690B0062BFCD /* Shaders.metal in Sources */,
 				820EACF7267C262F00570060 /* Renderer.swift in Sources */,
@@ -236,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E54689FA2BCE39F7009465EC /* VertexDescriptor.swift in Sources */,
 				E54689F72BCE357E009465EC /* Quad.swift in Sources */,
 				8289B17C267C690B0062BFCD /* Shaders.metal in Sources */,
 				820EACF8267C262F00570060 /* Renderer.swift in Sources */,
@@ -434,6 +440,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -467,6 +474,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
